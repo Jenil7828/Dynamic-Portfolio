@@ -33,6 +33,7 @@ https://portfolio-website-suh3.onrender.com
 ---
 
 ## Project Structure
+``` bash
 portfolio/
 ├── manage.py
 ├── portfolio/ # Django root project
@@ -42,7 +43,7 @@ portfolio/
 ├── requirements.txt
 ├── .env # For environment variables (not committed)
 └── README.md
-
+```
 ---
 
 ## Local Setup
@@ -73,7 +74,7 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_HOST_USER=your_email@gmail.com
 EMAIL_HOST_PASSWORD=your_app_password
-
+```
 ## Contact and Messages
 Messages submitted through the contact form are saved in the database.
 Messages are also emailed to the admin email set in the environment variables.
