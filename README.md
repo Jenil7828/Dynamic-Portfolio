@@ -46,7 +46,7 @@ portfolio/
 ---
 
 ## Local Setup
-
+``` bash 
 # Clone the repository
 git clone https://github.com/Jenil7828/Dynamic-Portfolio.git
 cd Dynamic-Portfolio
