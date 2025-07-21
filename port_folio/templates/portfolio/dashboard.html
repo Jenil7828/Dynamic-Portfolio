@@ -1,0 +1,227 @@
+{% load static %}
+{% load i18n %}
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'img/favicon.jpg' %}" type="image/jpg">
+
+	<title>Jenil Portfolio</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+
+	<!-- main css -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<!--================ Start Header Area =================-->
+	<header class="header_area">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<a class="navbar-brand logo_h" href="{% url 'index' %}">
+						<img src="{{ settings.logo.url }}" alt="Logo">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav justify-content-end">
+							<li class="nav-item {% if request.path == '/' %}active{% endif %}">
+								<a class="nav-link" href="{% url 'index' %}">Home</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'experience' %}">Experience</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'skills' %}">Skills</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+							{% if user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                                {% if user.is_superuser %}
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+                                {% endif %}
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                            {% endif %}
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
+	<!--================ End Header Area =================-->
+
+    <!--================ Start Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h2>Dashboard</h2>
+                    <div class="page_link">
+                        <a href="{% url 'index' %}">Home</a>
+                        <a href="{% url 'dashboard' %}">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Banner Area =================-->
+
+<!--================ Start Dashboard Area =================-->
+<section class="skills_area section_gap">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 text-center">
+				<div class="main_title">
+					<h2>Portfolio Dashboard</h2>
+					<p>Summary of your content activity.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row text-center mt-4">
+			<div class="col-lg-3 col-md-6 mb-4">
+				<div class="feature_item">
+					<h4><i class="fa fa-folder-open"></i> Projects</h4>
+					<p><strong>{{ total_projects }}</strong> total uploaded</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 mb-4">
+				<div class="feature_item">
+					<h4><i class="fa fa-envelope"></i> Messages</h4>
+					<p><strong>{{ total_messages }}</strong> received</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 mb-4">
+				<div class="feature_item">
+					<h4><i class="fa fa-cogs"></i> Skills</h4>
+					<p><strong>{{ total_skills }}</strong> listed</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6 mb-4">
+				<div class="feature_item">
+					<h4><i class="fa fa-graduation-cap"></i> Education</h4>
+					<p><strong>{{ total_education }}</strong> records added</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--================ End Dashboard Area =================-->
+
+<!--================ Start Messages Area =================-->
+<section >
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 text-center">
+				<div class="main_title">
+					<h2>Messages</h2>
+					<p>All contact form submissions received.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+			<div class="col-lg-12">
+				<div class="table-responsive">
+					<table class="table table-bordered">
+						<thead class="thead-dark">
+							<tr>
+								<th>Name</th>
+								<th>Email</th>
+								<th>Message</th>
+								<th>Received At</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for msg in messages %}
+								<tr>
+									<td>{{ msg.name }}</td>
+									<td>{{ msg.email }}</td>
+									<td>{{ msg.message|linebreaksbr }}</td>
+									<td>{{ msg.created_at|date:"Y-m-d H:i" }}</td>
+								</tr>
+							{% empty %}
+								<tr><td colspan="4" class="text-center">No messages found.</td></tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--================ End Messages Area =================-->
+
+
+    	<!--================Footer Area =================-->
+	<footer class="footer_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="footer_logo">
+                        <a href="{% url 'index' %}">
+                            <img src="{{ settings.logo.url }}" alt="Logo">
+                            <h4>{{ settings.footer_title }}</h4>
+                        </a>
+                    </div>
+
+                    <div class="footer_social">
+                        {% if social.linkedin %}
+                            <a href="{{ social.linkedin }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                        {% endif %}
+                        {% if social.github %}
+                            <a href="{{ social.github }}" target="_blank"><i class="fa fa-github"></i></a>
+                        {% endif %}
+                        {% if social.twitter %}
+                            <a href="{{ social.twitter }}" target="_blank"><i class="fa fa-twitter"></i></a>
+                        {% endif %}
+                        {% if social.instagram %}
+                            <a href="{{ social.instagram }}" target="_blank"><i class="fa fa-instagram"></i></a>
+                        {% endif %}
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row footer_bottom justify-content-center">
+                <p class="col-lg-8 col-sm-12 footer-text">
+					Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
+				</p>
+            </div>
+        </div>
+    </footer>
+	<!--================End Footer Area =================-->
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS --><script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/stellar.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'vendors/isotope/isotope-min.js' %}"></script>
+<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+<script src="{% static 'js/mail-script.js' %}"></script>
+
+	<!--gmaps Js-->
+	<!-- Google Maps API (You may want to hide your API key in production) -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+
+<!-- Static scripts -->
+<script src="{% static 'js/gmaps.min.js' %}"></script>
+<script src="{% static 'js/theme.js' %}"></script>
+</body>
+
+</html>

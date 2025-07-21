@@ -1,0 +1,294 @@
+{% load static %}
+{% load i18n %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.png" type="image/png">
+	<title>Services</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="vendors/linericon/style.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+	<link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
+	<!-- main css -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="{% static 'img/favicon.jpg' %}" type="image/jpg">
+	<title>Jenil Portfolio</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+
+	<!-- main css -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+	<!--================ Start Header Area =================-->
+	<header class="header_area">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<div class="container">
+					<a class="navbar-brand logo_h" href="{% url 'index' %}">
+						<img src="{{ settings.logo.url }}" alt="Logo">
+					</a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<button id="toggle-dark" class="btn btn-link p-0 ml-2" title="Toggle Dark Mode">
+						<i class="fa fa-moon-o" aria-hidden="true" style="font-size: 1.2rem;"></i>
+					</button>
+
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav justify-content-end">
+							<li class="nav-item {% if request.path == '/' %}active{% endif %}">
+								<a class="nav-link" href="{% url 'index' %}">Home</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'experience' %}">Experience</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'skills' %}">Skills</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+							{% if user.is_authenticated %}
+								<li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+								{% if user.is_superuser %}
+									<li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin</a></li>
+								{% endif %}
+							{% endif %}
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+			<!-- Language Switcher -->
+			<div style="position: absolute; top: 15px; right: 15px; z-index: 1000;">
+				<form action="{% url 'set_language' %}" method="post">
+					{% csrf_token %}
+					<select name="language" onchange="this.form.submit()" class="form-control form-control-sm">
+						{% get_current_language as LANGUAGE_CODE %}
+						{% get_available_languages as LANGUAGES %}
+						{% for lang in LANGUAGES %}
+							<option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>
+								{{ lang.1|slice:":2" }}
+							</option>
+						{% endfor %}
+					</select>
+				</form>
+			</div>
+		</div>
+	</header>
+	<!--================ End Header Area =================-->
+
+    <!--================ Start Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="container">
+                <div class="banner_content text-center">
+                    <h2>Experience</h2>
+                    <div class="page_link">
+                        <a href="{% url 'index' %}">Home</a>
+                        <a href="{% url 'experience' %}">Experience</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Banner Area =================-->
+<!-- Spacer -->
+<div style="margin-top: 220px;"></div>
+
+<!--================ Start Brand Area =================-->
+	<section class="brand_area section_gap_bottom">
+      <div class="main_title">
+        <h2>My Experience</h2>
+        <p>These are the Companies I have worked with.</p>
+      </div>
+		<div class="container">
+			<div class="row justify-content-center">
+
+				<div class="col-lg-6">
+
+					<div class="row">
+						{% for brand in brands %}
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<div class="single-brand-item d-table">
+								<div class="d-table-cell text-center">
+									<img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="offset-lg-2 col-lg-4 col-md-6">
+					<div class="client-info">
+						<div class="d-flex mb-50">
+							<span class="lage">{{ experience_info.years_of_experience }}</span>
+							<span class="smll">Years Experience Working</span>
+						</div>
+						<div class="call-now d-flex">
+							<div>
+								<span class="fa fa-phone"></span>
+							</div>
+							<div class="ml-15">
+								<p>{{ experience_info.call_text }}</p>
+								<h3>{{ experience_info.phone_number }}</h3>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!--================ End Brand Area =================-->
+
+
+
+    <!--================ Start Education Area =================-->
+	<div class="testimonial_area section_gap_bottom">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-8 text-center">
+					<div class="main_title">
+						<h2>Let's Introduce Education</h2>
+						<p>A journey of learning that shaped my foundation in tech and ML development.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="testi_slider owl-carousel">
+					{% for item in education_items %}
+					<div class="testi_item">
+						<div class="row">
+							<div class="col-lg-4">
+								{% if item.image %}
+									<img src="{{ item.image.url }}" alt="{{ item.title }}">
+								{% else %}
+									<img src="{% static 'img/default-edu.png' %}" alt="Default image">
+								{% endif %}
+							</div>
+							<div class="col-lg-8">
+								<div class="testi_text">
+									<h4>{{ item.degree }}</h4>
+									<p><strong>{{ item.school }}</strong> — {{ item.field_of_study }}</p>
+									<p><em>{{ item.start_year }} to {{ item.end_year }}</em></p>
+									<p><strong>Grade:</strong> {{ item.grade }}</p>
+									{% if item.activities %}
+										<p><strong>Activities:</strong> {{ item.activities }}</p>
+									{% endif %}
+									{% if item.description %}
+										<p><strong>Description:</strong> {{ item.description }}</p>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--================ End Education Area =================-->
+
+
+    <!--================ Start Newsletter Area =================-->
+    <section class="newsletter_area">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-12">
+                    <div class="subscription_box text-center">
+                        <h2 class="text-uppercase text-white">get update from anywhere</h2>
+                        <p class="text-white">
+                            Bearing Void gathering light light his eavening unto dont afraid.
+                        </p>
+                        <div class="subcribe-form" id="mc_embed_signup">
+                            <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                                <input name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required="" type="email">
+                                <div style="position: absolute; left: -5000px;">
+                                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                                </div>
+                                <button class="primary-btn hover d-inline">Get Started</button>
+                                <div class="info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================ End Newsletter Area =================-->
+
+        <!--================Footer Area =================-->
+	<footer class="footer_area">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="footer_top flex-column">
+                        <div class="footer_logo">
+                            <a href="#">
+                                <img src="img/logo.png" alt="">
+                            </a>
+                            <h4>Follow Me</h4>
+                        </div>
+                        <div class="footer_social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-dribbble"></i></a>
+                            <a href="#"><i class="fa fa-behance"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row footer_bottom justify-content-center">
+                <p class="col-lg-8 col-sm-12 footer-text">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </footer>
+    <!--================End Footer Area =================-->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/stellar.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+    <script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
+    <script src="vendors/isotope/isotope-min.js"></script>
+    <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/mail-script.js"></script>
+    <!--gmaps Js-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="js/gmaps.min.js"></script>
+    <script src="js/theme.js"></script>
+<script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+
+</body>
+
+</html>
