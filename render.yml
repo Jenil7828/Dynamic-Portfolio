@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: portfolio-website
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py makemigrations --noinput
+      python manage.py migrate --noinput
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn portfolio.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: portfolio.settings
+      - key: SECRET_KEY
+        value: your-secret-key-here
