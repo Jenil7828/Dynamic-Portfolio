@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'port_folio',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
 
@@ -54,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
 
 ]
 
